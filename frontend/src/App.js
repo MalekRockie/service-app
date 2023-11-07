@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
         <Routes>
-          <Route path="/service-provider-profile" element={<ServiceProviderProfile />} />
+          <Route path="/service-provider-profile/:id" element={<ServiceProviderProfile />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/rating" element={<Rating />} />
         </Routes>
