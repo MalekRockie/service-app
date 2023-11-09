@@ -1,16 +1,14 @@
 import './App.css';
 import ServiceProviderProfile from "./components/ServiceProviderProfile";
 import {Routes, Route} from 'react-router-dom';
-import Chat from "./components/Chat";
-import Rating from "./components/Rating";
+import ServiceBrowser from "./components/ServiceBrowser";
 
 function App() {
   return (
     <div className="App">
         <Routes>
           <Route path="/service-provider-profile/:id" element={<ServiceProviderProfile />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/rating" element={<Rating />} />
+          <Route path="/service-providers" element={<ServiceBrowser />} />
         </Routes>
     </div>
   );
