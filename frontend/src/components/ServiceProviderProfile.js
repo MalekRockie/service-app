@@ -1,9 +1,9 @@
-import {Typography, Button, Avatar, Rating} from "@mui/material";
+import {Typography, Button, Avatar, Rating, Box} from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
 import axios from "axios";
 import {useEffect, useState} from "react";
 import Navbar from "./Navbar";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 
 const ServiceProviderProfile = () => {
   const [provider, setProvider] = useState(null);
@@ -35,7 +35,8 @@ const ServiceProviderProfile = () => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          height: "calc(100vh - 64px)" }}
+          height: "calc(100vh - 64px)"
+        }}
       >
         <Avatar sx={{ width: 60, height: 60, backgroundColor: "#450B8F" }}>{provider.avatar}</Avatar>
         <Typography variant="h5" sx={{ marginTop: "1rem" }}>{provider.name}</Typography>
@@ -46,7 +47,11 @@ const ServiceProviderProfile = () => {
             readOnly
             emptyIcon={<StarIcon sx={{ color: "#FFFFFF" }} />}
           />
-          ({provider.reviewCount} reviews)
+          <Link to={`/service-provider/${provider.id}/reviews`} style={{ color: "inherit" }}>
+            <Box sx={{ marginLeft: 1 }}>
+              ({provider.reviewCount} reviews)
+            </Box>
+          </Link>
         </Typography>
         <Button variant="contained" color="inherit" sx={{ marginTop: "1rem", backgroundColor: "#00C314" }}>
           Request Service
