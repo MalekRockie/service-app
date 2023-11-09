@@ -1,0 +1,18 @@
+{
+  "service-providers": [
+    {
+      "id": 1,
+      "name": "The plumbing company",
+      "avatar": "TPC",
+      "rating": 5,
+      "reviewCount": 251
+    },
+    {
+      "id": 2,
+      "name": "The mowing company",
+      "avatar": "TMC",
+      "rating": 3,
+      "reviewCount": 50
+    }
+  ]
+}
