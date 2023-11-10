@@ -1,4 +1,4 @@
-import {Avatar, Box, List, ListItemAvatar, ListItemText, Rating} from "@mui/material";
+import {Avatar, Box, List, ListItemAvatar, ListItemText, Pagination, Rating} from "@mui/material";
 import Navbar from "./Navbar";
 import {useEffect, useState} from "react";
 import axios from "axios";
@@ -8,7 +8,17 @@ import {Link} from "react-router-dom";
 
 
 const ServiceBrowser = () => {
+  const itemsPerPage = 7;
+  const [page, setPage] = useState(1);
   const [providers, setProviders] = useState([]);
+
+  const indexOfLastProvider = page * itemsPerPage;
+  const indexOfFirstProvider = indexOfLastProvider - itemsPerPage;
+  const currentProviders = providers.slice(indexOfFirstProvider, indexOfLastProvider);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  }
 
   useEffect(() => {
     const fetchServiceProviders = async () => {
@@ -26,10 +36,10 @@ const ServiceBrowser = () => {
   return (
     <div>
       <Navbar />
-      <Box sx={{ padding: 5 }}>
-        <SearchBar />
+      <SearchBar />
+      <Box sx={{ padding: 2 }}>
         <List sx={{ width: "100%" }}>
-          {providers.map((provider) => (
+          {currentProviders.map((provider) => (
           <Link to={`/service-provider-profile/${provider.id}`} key={provider.id} style={{ textDecoration: "none", color: "inherit" }}>
             <Box sx={{ marginBottom: 2, display: "flex", alignItems: "center" }}>
                 <ListItemAvatar>
@@ -54,6 +64,21 @@ const ServiceBrowser = () => {
           </Link>
           ))}
         </List>
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", padding: 2 }}>
+          <Pagination
+            count={Math.ceil(providers.length / itemsPerPage)}
+            page={page}
+            onChange={handleChangePage}
+            sx={{
+              '& .MuiPaginationItem-root': {
+                color: "#FFFFFF"
+              },
+              '& .MuiPaginationItem-icon': {
+                color: "#FFFFFF"
+              }
+            }}
+          />
+        </Box>
       </Box>
     </div>
   );
