@@ -2,17 +2,59 @@
   "service-providers": [
     {
       "id": 1,
-      "name": "The plumbing company",
+      "name": "The Plumbing Company",
       "avatar": "TPC",
       "rating": 5,
       "reviewCount": 251
     },
     {
       "id": 2,
-      "name": "The mowing company",
+      "name": "The Mowing Company",
       "avatar": "TMC",
       "rating": 3,
       "reviewCount": 50
+    },
+    {
+      "id": 3,
+      "name": "The Water Company",
+      "avatar": "TWC",
+      "rating": 4,
+      "reviewCount": 341
+    },
+    {
+      "id": 4,
+      "name": "The clothing company",
+      "avatar": "TCC",
+      "rating": 4,
+      "reviewCount": 50
+    },
+    {
+      "id": 5,
+      "name": "The Gaming company",
+      "avatar": "TGC",
+      "rating": 5,
+      "reviewCount": 27
+    },
+    {
+      "id": 6,
+      "name": "The Mewing company",
+      "avatar": "TMC",
+      "rating": 2,
+      "reviewCount": 500
+    },
+    {
+      "id": 7,
+      "name": "The Movie Company",
+      "avatar": "TMC",
+      "rating": 5,
+      "reviewCount": 12
+    },
+    {
+      "id": 8,
+      "name": "The something company",
+      "avatar": "TSC",
+      "rating": 3,
+      "reviewCount": 507
     }
   ]
 }
