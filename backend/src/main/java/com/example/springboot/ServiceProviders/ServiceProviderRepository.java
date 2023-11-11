@@ -1,6 +1,5 @@
 package com.example.springboot.ServiceProviders;
 
-import com.example.springboot.ServiceProvider.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

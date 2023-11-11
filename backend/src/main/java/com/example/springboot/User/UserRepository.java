@@ -1,4 +1,4 @@
-package com.example.springboot.ServiceProvider.user;
+package com.example.springboot.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -26,8 +26,16 @@ public class UserRepository {
             return null; // Or throw a custom exception
         }
     }
-
-
+    public User getByUsername(String username) {
+        String sql = "SELECT * FROM user_account WHERE username = ?";
+        try {
+            User user = jdbcTemplate.queryForObject(sql, new Object[]{username}, mapUserWithDB());
+            return user;
+        } catch (EmptyResultDataAccessException ex) {
+            // Handle the case when no user is found
+            return null; // Or throw a custom exception
+        }
+    }
 
     private RowMapper<User> mapUserWithDB() {
         return (resultSet, i) -> {

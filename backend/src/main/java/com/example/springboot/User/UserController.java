@@ -1,4 +1,4 @@
-package com.example.springboot.ServiceProvider.user;
+package com.example.springboot.User;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,4 +1,4 @@
-package com.example.springboot.ServiceProvider.user;
+package com.example.springboot.User;
 
 public class User {
 
