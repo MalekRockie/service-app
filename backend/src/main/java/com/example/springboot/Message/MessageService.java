@@ -12,4 +12,8 @@ public class MessageService {
     public List<Message> getMessages(String chat_id) {
         return messageRepository.getMessages(chat_id);
     }
+
+    public void sendMessage(Message msg) {
+        messageRepository.sendMessage(msg);
+    }
 }

@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 @Repository
 public class MessageRepository {
@@ -20,6 +21,10 @@ public class MessageRepository {
     public List<Message> getMessages(String chat_id) {
         String sql = "SELECT * FROM public.\"messages\" WHERE chat_id = ?";
         return jdbcTemplate.query(sql, new Object[]{chat_id}, mapMessageWithDB());
+    }
+    public void sendMessage(Message msg) {
+        String sql = "INSERT INTO public.\"messages\" (message_id, chat_id, send_time, sender_id, \"messageContent\") VALUES (?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, msg.getMessage_id(), msg.getChat_id(), new Timestamp(msg.getSend_time().getTime()), msg.getSender_id(), msg.getMessageContent());
     }
 
     private RowMapper<Message> mapMessageWithDB() {
