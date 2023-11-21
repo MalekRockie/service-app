@@ -6,6 +6,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class ServiceProviderRepository {
 
@@ -25,6 +27,12 @@ public class ServiceProviderRepository {
         }
     }
 
+    public List<ServiceProvider> getProviders()
+    {
+        String sql = "SELECT * FROM  public.\"Service Provider\"";
+        return jdbcTemplate.query(sql, mapServiceProviderWithDB());
+    }
+
     private RowMapper<ServiceProvider> mapServiceProviderWithDB() {
         return (resultSet, i) -> {
             return new ServiceProvider(
@@ -41,4 +49,5 @@ public class ServiceProviderRepository {
                     resultSet.getInt("zip_code"));
         };
     }
+
 }
