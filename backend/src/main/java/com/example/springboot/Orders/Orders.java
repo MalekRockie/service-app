@@ -6,13 +6,13 @@ public class Orders {
     private String order_id;
     private String User_id;
     private Date order_date;
-    private String Service_id;
+    private String service_id;
 
     public Orders(String order_id, String user_id, Date order_date, String service_id) {
         this.order_id = order_id;
         this.User_id = user_id;
         this.order_date = order_date;
-        this.Service_id = service_id;
+        this.service_id = service_id;
     }
 
     public String getOrder_id() {
@@ -40,10 +40,10 @@ public class Orders {
     }
 
     public String getService_id() {
-        return Service_id;
+        return service_id;
     }
 
     public void setService_id(String service_id) {
-        Service_id = service_id;
+        service_id = service_id;
     }
 }

@@ -16,4 +16,8 @@ public class OrdersService {
     public Orders getOrder(String id) {
         return ordersRepository.getOrder(id);
     }
+
+    public void requestService(Orders newOrder) {
+        ordersRepository.requestService(newOrder);
+    }
 }

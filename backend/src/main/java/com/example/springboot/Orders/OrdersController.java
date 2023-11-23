@@ -1,9 +1,10 @@
 package com.example.springboot.Orders;
 
+import com.example.springboot.ServiceProviders.ServiceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,4 +24,12 @@ public class OrdersController {
     {
         return ordersService.getOrder(id);
     }
+
+    @PostMapping("order/RequestService")
+    public ResponseEntity<?> requestService(@RequestBody Orders newOrder)
+    {
+        ordersService.requestService(newOrder);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
 }
