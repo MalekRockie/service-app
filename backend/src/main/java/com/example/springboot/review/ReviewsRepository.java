@@ -16,7 +16,7 @@ public class ReviewsRepository {
     }
 
     public Reviews getReview(String id) {
-        String sql = "SELECT * FROM public.\"reviews\" WHERE Review_id = ?";
+        String sql = "SELECT * FROM public.\"reviews\" WHERE review_id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, new Object[]{id}, mapReviewsWithDB());
         } catch (EmptyResultDataAccessException ex) {
@@ -25,13 +25,23 @@ public class ReviewsRepository {
     }
 
     public int getReviewsAvg(String service_provider_id) {
-        String sql = "SELECT AVG(stars) FROM public.\"reviews\" WHERE Service_Provider_id = ?";
+        String sql = "SELECT AVG(stars) FROM public.\"reviews\" WHERE service_provider_id = ?";
         try {
             Double avg = jdbcTemplate.queryForObject(sql, new Object[]{service_provider_id}, Double.class);
             return avg == null ? 0 : avg.intValue();
         } catch (EmptyResultDataAccessException ex) {
             return 0;
         }
+    }
+
+    public void createReview(Reviews newReview) {
+        String sql = "INSERT INTO public.\"reviews\" (review_id, stars, Description, User_id, service_provider_id) VALUES (?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql,
+                newReview.getReview_id(),
+                newReview.getStars(),
+                newReview.getDescription(),
+                newReview.getUser_id(),
+                newReview.getService_Provider_id());
     }
 
 
@@ -42,7 +52,7 @@ public class ReviewsRepository {
                     resultSet.getInt("stars"),
                     resultSet.getString("Description"),
                     resultSet.getString("User_id"),
-                    resultSet.getString("Service_Provider_id"));
+                    resultSet.getString("service_provider_id"));
         };
     }
 }

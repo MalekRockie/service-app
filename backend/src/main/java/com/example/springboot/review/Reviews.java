@@ -2,26 +2,26 @@ package com.example.springboot.review;
 
 public class Reviews {
 
-    private String Review_id;
+    private String review_id;
     private int stars;
     private String Description;
     private String User_id;
-    private String Service_Provider_id;
+    private String service_provider_id;
 
-    public Reviews(String review_id, int stars, String description, String user_id, String service_Provider_id) {
-        this.Review_id = review_id;
+    public Reviews(String review_id, int stars, String description, String user_id, String service_provider_id) {
+        this.review_id = review_id;
         this.stars = stars;
         this.Description = description;
         this.User_id = user_id;
-        this.Service_Provider_id = service_Provider_id;
+        this.service_provider_id = service_provider_id;
     }
 
     public String getReview_id() {
-        return Review_id;
+        return review_id;
     }
 
     public void setReview_id(String review_id) {
-        Review_id = review_id;
+        review_id = review_id;
     }
 
     public int getStars() {
@@ -49,10 +49,10 @@ public class Reviews {
     }
 
     public String getService_Provider_id() {
-        return Service_Provider_id;
+        return service_provider_id;
     }
 
-    public void setService_Provider_id(String service_Provider_id) {
-        Service_Provider_id = service_Provider_id;
+    public void setService_Provider_id(String service_provider_id) {
+        service_provider_id = service_provider_id;
     }
 }

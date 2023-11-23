@@ -17,4 +17,8 @@ public class ReviewsService {
     public int getReviewsAvg(String id) {
         return reviewsRepository.getReviewsAvg(id);
     }
+
+    public void createReview(Reviews newReview) {
+        reviewsRepository.createReview(newReview);
+    }
 }
