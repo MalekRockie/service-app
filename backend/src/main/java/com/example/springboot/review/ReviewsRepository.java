@@ -24,6 +24,16 @@ public class ReviewsRepository {
         }
     }
 
+    public int getReviewsAvg(String service_provider_id) {
+        String sql = "SELECT AVG(stars) FROM public.\"reviews\" WHERE Service_Provider_id = ?";
+        try {
+            Double avg = jdbcTemplate.queryForObject(sql, new Object[]{service_provider_id}, Double.class);
+            return avg == null ? 0 : avg.intValue();
+        } catch (EmptyResultDataAccessException ex) {
+            return 0;
+        }
+    }
+
 
     private RowMapper<Reviews> mapReviewsWithDB() {
         return (resultSet, i) -> {
@@ -35,5 +45,4 @@ public class ReviewsRepository {
                     resultSet.getString("Service_Provider_id"));
         };
     }
-
 }

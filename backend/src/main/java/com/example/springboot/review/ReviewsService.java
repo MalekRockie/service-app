@@ -13,4 +13,8 @@ public class ReviewsService {
     {
         return reviewsRepository.getReview(id);
     }
+
+    public int getReviewsAvg(String id) {
+        return reviewsRepository.getReviewsAvg(id);
+    }
 }
