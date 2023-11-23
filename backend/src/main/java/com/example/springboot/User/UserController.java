@@ -1,8 +1,9 @@
 package com.example.springboot.User;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.springboot.Message.Message;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -18,5 +19,12 @@ public class UserController {
     public User getUser(@PathVariable String id)
     {
         return userService.getUser(id);
+    }
+
+    @PostMapping("User/SignUp")
+    public ResponseEntity<?> signUp(@RequestBody User newUser)
+    {
+        userService.SignUp(newUser);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

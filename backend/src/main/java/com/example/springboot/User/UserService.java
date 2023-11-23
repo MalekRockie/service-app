@@ -17,4 +17,8 @@ public class UserService {
     public User getUser(String id) {
         return userRepository.getUser(id);
     }
+
+    public void SignUp(User newUser) {
+        userRepository.SignUp(newUser);
+    }
 }

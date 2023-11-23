@@ -17,4 +17,8 @@ public class ServiceProviderService {
     public List<ServiceProvider> getProviders() {
         return serviceProviderRepository.getProviders();
     }
+
+    public void SignUp(ServiceProvider newUser) {
+        serviceProviderRepository.SignUp(newUser);
+    }
 }

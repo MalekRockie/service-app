@@ -33,6 +33,13 @@ public class ServiceProviderRepository {
         return jdbcTemplate.query(sql, mapServiceProviderWithDB());
     }
 
+    public void SignUp(ServiceProvider newUser) {
+        String sql = "INSERT INTO public.\"Service Provider\" (service_provider_id, username, first_name, last_name, password, email_address, phone_number, street_address_1, street_address_2, city, zip_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, newUser.getServiceProviderId(), newUser.getUsername(), newUser.getFirstName(), newUser.getLastName(), newUser.getPassword(), // Consider hashing the password
+                newUser.getEmailAddress(), newUser.getPhoneNumber(), newUser.getStreetAddress1(), newUser.getStreetAddress2(), newUser.getCity(), newUser.getZipCode());
+    }
+
+
     private RowMapper<ServiceProvider> mapServiceProviderWithDB() {
         return (resultSet, i) -> {
             return new ServiceProvider(
@@ -49,5 +56,4 @@ public class ServiceProviderRepository {
                     resultSet.getInt("zip_code"));
         };
     }
-
 }

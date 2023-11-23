@@ -8,13 +8,13 @@ public class ServiceProvider {
     private String last_name;
     private String password;
     private String email_address;
-    private int phone_number;
+    private long phone_number;
     private String street_address1;
     private String street_address2;
     private String city;
     private int zip_code;
 
-    public ServiceProvider(String service_provider_id, String username, String first_name, String last_name, String password, String email_address, int phone_number, String street_address1, String street_address2, String city, int zip_code) {
+    public ServiceProvider(String service_provider_id, String username, String first_name, String last_name, String password, String email_address, long phone_number, String street_address1, String street_address2, String city, int zip_code) {
         this.service_provider_id = service_provider_id;
         this.username = username;
         this.first_name = first_name;
@@ -76,7 +76,7 @@ public class ServiceProvider {
         this.email_address = email_address;
     }
 
-    public int getPhoneNumber() {
+    public long getPhoneNumber() {
         return phone_number;
     }
 
