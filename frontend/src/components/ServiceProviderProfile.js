@@ -7,13 +7,17 @@ import {Link, useParams} from "react-router-dom";
 
 const ServiceProviderProfile = () => {
   const [provider, setProvider] = useState(null);
+  const [averageRating, setAverageRating] = useState(0);
   const { id } = useParams();
 
   useEffect(() => {
     const fetchServiceProvider = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/service-providers/${id}`);
+        const response = await axios.get(`http://localhost:8080/service/GetProvider/${id}`);
         setProvider(response.data);
+
+        const avgRatingResponse = await axios.get(`http://localhost:8080/reviews/GetAllReviews/${id}`);
+        setAverageRating(avgRatingResponse.data);
       } catch (error) {
         console.error("Error fetching the service provider:", error);
       }
@@ -39,15 +43,15 @@ const ServiceProviderProfile = () => {
         }}
       >
         <Avatar sx={{ width: 60, height: 60, backgroundColor: "#450B8F" }}>{provider.avatar}</Avatar>
-        <Typography variant="h5" sx={{ marginTop: "1rem" }}>{provider.name}</Typography>
+        <Typography variant="h5" sx={{ marginTop: "1rem" }}>{provider.username}</Typography>
 
         <Typography variant="body1" sx={{ marginTop: "0.5rem" }}>
           <Rating
-            value={provider.rating}
+            value={averageRating}
             readOnly
             emptyIcon={<StarIcon sx={{ color: "#FFFFFF" }} />}
           />
-          <Link to={`/service-provider/${provider.id}/reviews`} style={{ color: "inherit" }}>
+          <Link to={`/service-provider/${provider.service_provider_id}/reviews`} style={{ color: "inherit" }}>
             <Box sx={{ marginLeft: 1 }}>
               ({provider.reviewCount} reviews)
             </Box>
