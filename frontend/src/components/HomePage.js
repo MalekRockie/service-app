@@ -1,4 +1,6 @@
 import { Button } from "@mui/material";
+import { Link } from 'react-router-dom';
+
 
 const HomePage = () => {
     const buttonStyle = {
@@ -16,9 +18,12 @@ const HomePage = () => {
             </div>
 
             <div style={{ display: "flex", justifyContent: "center", marginTop: "4rem" }}>
+            <Link to="/signup" style={{ textDecoration: 'none' }}>
+
                 <Button variant="contained" color="success" onClick={() => console.log("Sign Up clicked")} style={{ ...buttonStyle }}>
                     Sign Up
                 </Button>
+                </Link>
 
                 <Button variant="contained" color="success" onClick={() => console.log("Login clicked")} style={{ marginLeft: "4rem", ...buttonStyle }}>
                     Login
