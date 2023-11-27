@@ -6,6 +6,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
 public class UserRepository {
 
@@ -37,11 +39,13 @@ public class UserRepository {
         }
     }
     public void SignUp(User newUser) {
+        String uniqueUserID = UUID.randomUUID().toString();
         String sql = "INSERT INTO public.\"Users\" (user_id, first_name, last_name, password, phone_number, email_address, street_address_1, street_address_2, city, zip_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql,
-                newUser.getUser_id(), newUser.getFirst_name(), newUser.getLast_name(), newUser.getPassword(), newUser.getPhone_number(), newUser.getEmail_address(),
+                uniqueUserID, newUser.getFirst_name(), newUser.getLast_name(), newUser.getPassword(), newUser.getPhone_number(), newUser.getEmail_address(),
                 newUser.getStreet_address_1(), newUser.getStreet_address_2(), newUser.getCity(), newUser.getZip_code());
     }
+
 
     private RowMapper<User> mapUserWithDB() {
         return (resultSet, i) -> {

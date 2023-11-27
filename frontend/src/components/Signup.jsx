@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
 
 
 
@@ -16,14 +17,34 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
+
+
+        const user = {
+            first_name: data.get('firstName'),
+            last_name: data.get('lastName'),
             password: data.get('password'),
-        });
-    };
+            phone_number: data.get('phoneNumber'),
+            email_address: data.get('email'),
+            street_address_1: data.get('addressLine'),
+            street_address_2: data.get('addressLine2') || "", 
+            city: data.get('city'), 
+            zip_code: data.get('postalCode') 
+        };
+    
+try {
+        const response = await axios.post('http://localhost:8080/User/SignUp', user);
+        console.log("User created successfully", response.data);
+        // Handle response accordingly
+    } catch (error) {
+        console.error("Error in the sign-up process", error.response || error.message);
+    }
+};
+    
+    
+    
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -71,16 +92,6 @@ export default function SignUp() {
                                 <TextField
                                     required
                                     fullWidth
-                                    id="username"
-                                    label="Username"
-                                    name="username"
-                                    autoComplete="username"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
                                     id="email"
                                     label="Email Address"
                                     name="email"
@@ -117,6 +128,15 @@ export default function SignUp() {
                                     name="addressLine"
                                 />
                             </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="addressLine2"
+                                    label="Address Line 2"
+                                    name="addressLine2"
+                                />
+                            </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     required
@@ -144,23 +164,13 @@ export default function SignUp() {
                                     name="postalCode"
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="country"
-                                    label="Country"
-                                    name="country"
-                                />
-                            </Grid>
 
                         </Grid>
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                        >
+                            sx={{ mt: 3, mb: 2 }}>
                             Sign Up
                         </Button>
                         <Grid container justifyContent="flex-end">

@@ -6,14 +6,14 @@ public class User {
     private String first_name;
     private String last_name;
     private String password;
-    private int phone_number;
+    private long phone_number;
     private String email_address;
     private String street_address_1;
     private String street_address_2;
     private String City;
     private int zip_code;
 
-    public User(String user_id, String first_name, String last_name, String password, int phone_number, String email_address, String street_address_1, String street_address_2, String city, int zip_code) {
+    public User(String user_id, String first_name, String last_name, String password, long phone_number, String email_address, String street_address_1, String street_address_2, String city, int zip_code) {
         this.user_id = user_id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -58,11 +58,11 @@ public class User {
         this.password = password;
     }
 
-    public int getPhone_number() {
+    public long getPhone_number() {
         return phone_number;
     }
 
-    public void setPhone_number(int phone_number) {
+    public void setPhone_number(long phone_number) {
         this.phone_number = phone_number;
     }
 
