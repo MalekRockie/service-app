@@ -37,6 +37,8 @@ export default function SignUp() {
 try {
         const response = await axios.post('http://localhost:8080/User/SignUp', user);
         console.log("User created successfully", response.data);
+        //TODO Add some code to go to the Sign In page here
+
         // Handle response accordingly
     } catch (error) {
         console.error("Error in the sign-up process", error.response || error.message);

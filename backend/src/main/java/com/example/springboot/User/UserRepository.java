@@ -29,7 +29,7 @@ public class UserRepository {
         }
     }
     public User getByUsername(String username) {
-        String sql = "SELECT * FROM user_account WHERE username = ?";
+        String sql = "SELECT * FROM public.\"Users\" WHERE email_address = ?";
         try {
             User user = jdbcTemplate.queryForObject(sql, new Object[]{username}, mapUserWithDB());
             return user;
@@ -44,6 +44,7 @@ public class UserRepository {
         jdbcTemplate.update(sql,
                 uniqueUserID, newUser.getFirst_name(), newUser.getLast_name(), newUser.getPassword(), newUser.getPhone_number(), newUser.getEmail_address(),
                 newUser.getStreet_address_1(), newUser.getStreet_address_2(), newUser.getCity(), newUser.getZip_code());
+
     }
 
 
