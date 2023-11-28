@@ -49,7 +49,7 @@ public class ServiceProviderRepository {
                     resultSet.getString("last_name"),
                     resultSet.getString("password"),
                     resultSet.getString("email_address"),
-                    resultSet.getInt("phone_number"),
+                    resultSet.getString("phone_number"),
                     resultSet.getString("street_address_1"),
                     resultSet.getString("street_address_2"),
                     resultSet.getString("city"),
