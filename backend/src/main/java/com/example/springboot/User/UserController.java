@@ -34,13 +34,13 @@ public class UserController {
         userService.SignUp(newUser);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
-        String username = credentials.get("username");
-        String password = credentials.get("password");
-        userService.authenticate(username, password);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
+//        String username = credentials.get("username");
+//        String password = credentials.get("password");
+//        userService.authenticate(username, password);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);

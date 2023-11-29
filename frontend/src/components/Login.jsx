@@ -11,30 +11,37 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 const defaultTheme = createTheme();
 
 export default function LogIn() {
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
   
-    const user = {
-      username: data.get('email'),
-      password: data.get('password'),
-    };
-    
-
+    const formData = new URLSearchParams();
+    formData.append('username', data.get('email'));
+    formData.append('password', data.get('password'));
+  
     try {
-      const response = await axios.post('http://localhost:8080/login', user);
+      const response = await axios.post('http://localhost:8080/login', formData.toString(), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
       console.log('Login successful', response.data);
-      // successful login here
+      navigate('/ServiceBrowser');
+      // Handle successful login here
     } catch (error) {
-      console.error('Login failed', error.response || error.message);
+      console.error('Login failed', error.response ? error.response.data : error.message);
       // Handle login failure here
     }
   };
+  
+  
 
 
   
