@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const ServiceProviderProfile = () => {
   const [provider, setProvider] = useState(null);
-  const [averageRating, setAverageRating] = useState(0); // Initialize to 0
+  const [averageRating, setAverageRating] = useState(0);
   const [reviewCount, setReviewCount] = useState(0);
   const [isRequestMade, setIsRequestMade] = useState(false);
   const { id } = useParams();
@@ -20,7 +20,7 @@ const ServiceProviderProfile = () => {
         setProvider(providerResponse.data);
 
         const reviewsResponse = await axios.get(`http://localhost:8080/reviews/GetAllReviews/${id}`);
-        setAverageRating(reviewsResponse.data.averageRating || 0); // Use fallback to 0
+        setAverageRating(reviewsResponse.data.averageRating || 0);
         setReviewCount(reviewsResponse.data.reviewCount);
       } catch (error) {
         console.error("Error fetching the service provider:", error);
@@ -33,12 +33,12 @@ const ServiceProviderProfile = () => {
   const handleRequestService = async () => {
     try {
       const orderId = uuidv4();
-      const userId = "1";  // Hardcoded user_id for now
+      const userId = "1";
 
       const serviceResponse = await axios.get(`http://localhost:8080/Service/getServiceByProvider/${id}`);
       if (!serviceResponse.data || !serviceResponse.data.service_id) {
         console.error("Service ID not found in the response");
-        return; // Exit if service_id is not found
+        return;
       }
 
       const serviceId = serviceResponse.data.service_id;
@@ -86,7 +86,7 @@ const ServiceProviderProfile = () => {
             readOnly
             emptyIcon={<StarIcon sx={{ color: "#FFFFFF" }} />}
           />
-          <Link to={`/service-provider/${provider.service_provider_id}/reviews`} style={{ color: "inherit" }}>
+          <Link to={`/service-provider/${id}/reviews`} style={{ color: "inherit" }}>
             <Box sx={{ marginLeft: 1 }}>
               ({reviewCount} reviews)
             </Box>
