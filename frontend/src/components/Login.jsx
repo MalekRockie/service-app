@@ -10,20 +10,34 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
 
 
 const defaultTheme = createTheme();
 
 export default function LogIn() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
+  
+    const user = {
+      username: data.get('email'),
       password: data.get('password'),
-    });
+    };
+    
+
+    try {
+      const response = await axios.post('http://localhost:8080/login', user);
+      console.log('Login successful', response.data);
+      // successful login here
+    } catch (error) {
+      console.error('Login failed', error.response || error.message);
+      // Handle login failure here
+    }
   };
 
+
+  
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs" sx={{ backgroundColor: 'white' }}>
@@ -45,7 +59,7 @@ export default function LogIn() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email"
               name="email"
               autoComplete="email"
               autoFocus
