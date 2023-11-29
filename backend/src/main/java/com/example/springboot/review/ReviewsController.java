@@ -5,6 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 public class ReviewsController {
 
@@ -20,9 +23,9 @@ public class ReviewsController {
 
     //This is to retrieve the average of all reviews for 1 service provider
     @GetMapping("reviews/GetAllReviews/{id}")
-    public int getReviewsAvg(@PathVariable String id)
+    public Map<String, Object> getReviewsInfo(@PathVariable String id)
     {
-        return reviewsService.getReviewsAvg(id);
+        return reviewsService.getReviewsInfo(id);
     }
 
     @PostMapping("reviews/CreateReview")
@@ -31,4 +34,9 @@ public class ReviewsController {
             reviewsService.createReview(newReview);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
+    @GetMapping("reviews/GetAllReviewsForProvider/{id}")
+    public List<Reviews> getAllReviews(@PathVariable String id)
+    {
+        return reviewsService.getAllReviews(id);
+    }
 }

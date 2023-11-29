@@ -29,13 +29,15 @@ public class OrdersRepository {
     }
 
     public void requestService(Orders newOrder) {
-        String sql = "INSERT INTO public.\"Orders\" (order_id, User_id, order_date, service_id) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO public.\"Orders\" (order_id, User_id, order_date, service_id, status) VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql,
                 newOrder.getOrder_id(),
                 newOrder.getUser_id(),
-                new Timestamp(System.currentTimeMillis()), // This sets the order_date to the current date and time
-                newOrder.getService_id());
+                new Timestamp(System.currentTimeMillis()),
+                newOrder.getService_id(),
+                newOrder.getStatus());
     }
+
 
 
 
@@ -45,7 +47,8 @@ public class OrdersRepository {
                     resultSet.getString("order_id"),
                     resultSet.getString("User_id"),
                     resultSet.getDate("order_date"),
-                    resultSet.getString("service_id"));
+                    resultSet.getString("service_id"),
+                    resultSet.getString("status"));
         };
     }
 }

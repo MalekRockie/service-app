@@ -1,23 +1,27 @@
-import {Typography, Button, Avatar, Rating, Box} from "@mui/material";
-import StarIcon from '@mui/icons-material/Star';
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {useEffect, useState} from "react";
+import { Typography, Button, Avatar, Rating, Box } from "@mui/material";
+import StarIcon from '@mui/icons-material/Star';
+import { useParams, Link } from "react-router-dom";
 import Navbar from "./Navbar";
-import {Link, useParams} from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
 
 const ServiceProviderProfile = () => {
   const [provider, setProvider] = useState(null);
-  const [averageRating, setAverageRating] = useState(0);
+  const [averageRating, setAverageRating] = useState(0); // Initialize to 0
+  const [reviewCount, setReviewCount] = useState(0);
+  const [isRequestMade, setIsRequestMade] = useState(false);
   const { id } = useParams();
 
   useEffect(() => {
     const fetchServiceProvider = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/service/GetProvider/${id}`);
-        setProvider(response.data);
+        const providerResponse = await axios.get(`http://localhost:8080/service/GetProvider/${id}`);
+        setProvider(providerResponse.data);
 
-        const avgRatingResponse = await axios.get(`http://localhost:8080/reviews/GetAllReviews/${id}`);
-        setAverageRating(avgRatingResponse.data);
+        const reviewsResponse = await axios.get(`http://localhost:8080/reviews/GetAllReviews/${id}`);
+        setAverageRating(reviewsResponse.data.averageRating || 0); // Use fallback to 0
+        setReviewCount(reviewsResponse.data.reviewCount);
       } catch (error) {
         console.error("Error fetching the service provider:", error);
       }
@@ -25,6 +29,37 @@ const ServiceProviderProfile = () => {
 
     fetchServiceProvider();
   }, [id]);
+
+  const handleRequestService = async () => {
+    try {
+      const orderId = uuidv4();
+      const userId = "1";  // Hardcoded user_id for now
+
+      const serviceResponse = await axios.get(`http://localhost:8080/Service/getServiceByProvider/${id}`);
+      if (!serviceResponse.data || !serviceResponse.data.service_id) {
+        console.error("Service ID not found in the response");
+        return; // Exit if service_id is not found
+      }
+
+      const serviceId = serviceResponse.data.service_id;
+      const orderDate = new Date().toISOString().split('T')[0];
+
+      const requestData = {
+        order_id: orderId,
+        user_id: userId,
+        order_date: orderDate,
+        service_id: serviceId,
+        status: "Pending"
+      };
+
+      await axios.post("http://localhost:8080/order/RequestService", requestData);
+      alert("Service requested successfully!");
+      setIsRequestMade(true);
+    } catch (error) {
+      console.error("Error requesting service:", error);
+      alert("Failed to request service.");
+    }
+  };
 
   if (!provider) {
     return <div>Loading...</div>;
@@ -45,7 +80,7 @@ const ServiceProviderProfile = () => {
         <Avatar sx={{ width: 60, height: 60, backgroundColor: "#450B8F" }}>{provider.avatar}</Avatar>
         <Typography variant="h5" sx={{ marginTop: "1rem" }}>{provider.username}</Typography>
 
-        <Typography variant="body1" sx={{ marginTop: "0.5rem" }}>
+        <Typography component="div" variant="body1" sx={{ marginTop: "0.5rem" }}>
           <Rating
             value={averageRating}
             readOnly
@@ -53,11 +88,18 @@ const ServiceProviderProfile = () => {
           />
           <Link to={`/service-provider/${provider.service_provider_id}/reviews`} style={{ color: "inherit" }}>
             <Box sx={{ marginLeft: 1 }}>
-              ({provider.reviewCount} reviews)
+              ({reviewCount} reviews)
             </Box>
           </Link>
         </Typography>
-        <Button variant="contained" color="inherit" sx={{ marginTop: "1rem", backgroundColor: "#00C314" }}>
+
+        <Button 
+          variant="contained" 
+          color="inherit" 
+          sx={{ marginTop: "1rem", backgroundColor: "#00C314" }}
+          onClick={handleRequestService}
+          disabled={isRequestMade}
+        >
           Request Service
         </Button>
       </div>

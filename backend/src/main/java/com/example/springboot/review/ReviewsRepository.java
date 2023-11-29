@@ -6,6 +6,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Repository
 public class ReviewsRepository {
 
@@ -24,14 +28,29 @@ public class ReviewsRepository {
         }
     }
 
-    public int getReviewsAvg(String service_provider_id) {
-        String sql = "SELECT AVG(stars) FROM public.\"reviews\" WHERE service_provider_id = ?";
+    public Map<String, Object> getReviewsInfo(String service_provider_id) {
+        String avgSql = "SELECT AVG(stars) FROM public.\"reviews\" WHERE service_provider_id = ?";
+        String countSql = "SELECT COUNT(*) FROM public.\"reviews\" WHERE service_provider_id = ?";
+        Map<String, Object> result = new HashMap<>();
+
         try {
-            Double avg = jdbcTemplate.queryForObject(sql, new Object[]{service_provider_id}, Double.class);
-            return avg == null ? 0 : avg.intValue();
+            Double avg = jdbcTemplate.queryForObject(avgSql, new Object[]{service_provider_id}, Double.class);
+            Integer count = jdbcTemplate.queryForObject(countSql, new Object[]{service_provider_id}, Integer.class);
+
+            result.put("averageRating", avg == null ? 0 : avg);
+            result.put("reviewCount", count == null ? 0 : count);
         } catch (EmptyResultDataAccessException ex) {
-            return 0;
+            result.put("averageRating", 0);
+            result.put("reviewCount", 0);
         }
+
+        return result;
+    }
+
+
+    public List<Reviews> getAllReviews(String service_provider_id) {
+        String sql = "SELECT * FROM public.\"reviews\" WHERE service_provider_id = ?";
+        return jdbcTemplate.query(sql, mapReviewsWithDB());
     }
 
     public void createReview(Reviews newReview) {

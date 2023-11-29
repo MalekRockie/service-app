@@ -7,12 +7,14 @@ public class Orders {
     private String User_id;
     private Date order_date;
     private String service_id;
+    private String status;
 
-    public Orders(String order_id, String user_id, Date order_date, String service_id) {
+    public Orders(String order_id, String user_id, Date order_date, String service_id, String status) {
         this.order_id = order_id;
         this.User_id = user_id;
         this.order_date = order_date;
         this.service_id = service_id;
+        this.status = status;
     }
 
     public String getOrder_id() {
@@ -45,5 +47,13 @@ public class Orders {
 
     public void setService_id(String service_id) {
         service_id = service_id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
