@@ -1,5 +1,6 @@
 package com.example.springboot.ServiceProviders;
 
+import com.example.springboot.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -38,8 +39,16 @@ public class ServiceProviderRepository {
         jdbcTemplate.update(sql, newUser.getServiceProviderId(), newUser.getUsername(), newUser.getFirstName(), newUser.getLastName(), newUser.getPassword(), // Consider hashing the password
                 newUser.getEmailAddress(), newUser.getPhoneNumber(), newUser.getStreetAddress1(), newUser.getStreetAddress2(), newUser.getCity(), newUser.getZipCode());
     }
-
-
+    public ServiceProvider getByUsername(String username) {
+        String sql = "SELECT * FROM public.\"Service Provider\" WHERE email_address = ?";
+        try {
+            ServiceProvider serviceProvider = jdbcTemplate.queryForObject(sql, new Object[]{username}, mapServiceProviderWithDB());
+            return serviceProvider;
+        } catch (EmptyResultDataAccessException ex) {
+            // Handle the case when no user is found
+            return null; // Or throw a custom exception
+        }
+    }
     private RowMapper<ServiceProvider> mapServiceProviderWithDB() {
         return (resultSet, i) -> {
             return new ServiceProvider(

@@ -8,6 +8,7 @@ import ServiceBrowser from './components/ServiceBrowser';
 import ServiceProviderProfile from './components/ServiceProviderProfile';
 import Reviews from './components/Reviews';
 import ServiceProviderSignUp from './components/ServiceProviderSignUp';
+import ServiceProviderLogIn from './components/ServiceProviderLogIn';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path='service-provider-profile/:id' element={<ServiceProviderProfile/>}/>
           <Route path='/service-provider/:id/reviews' element={<Reviews/>}/>
           <Route path='/ProvicerSignUp' element={<ServiceProviderSignUp/>}/>
+          <Route path='/ProviderLogIn' element={<ServiceProviderLogIn/>}/>
         </Routes>
     </div>
 

@@ -1,22 +1,28 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, createTheme, ThemeProvider } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+const serviceProviderTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2', 
+    },
+    secondary: {
+      main: '#d32f2f', 
+    },
+  },
+  typography: {
+    h5: {
+      fontWeight: 600,
+    },
+    button: {
+      textTransform: 'none', 
+    },
+  },
+});
 
-const defaultTheme = createTheme();
-
-export default function LogIn() {
+export default function ServiceProviderLogIn() {
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -34,33 +40,20 @@ export default function LogIn() {
       });
       console.log('Login successful', response.data);
       navigate('/ServiceBrowser');
-      // Handle successful login here
     } catch (error) {
       console.error('Login failed', error.response ? error.response.data : error.message);
-      // Handle login failure here
     }
   };
-  
-  
 
-
-  
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs" sx={{ backgroundColor: 'white' }}>
+    <ThemeProvider theme={serviceProviderTheme}>
+      <Container component="main" maxWidth="xs" sx={{ backgroundColor: '#f5f5f5', borderRadius: 2, boxShadow: 3, p: 3 }}>
         <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Typography component="h1" variant="h5">
-            User Log in
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Typography component="h1" variant="h5" color="primary">
+            Service Provider Log In
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 2 }}>
             <TextField
               margin="normal"
               required
@@ -85,16 +78,9 @@ export default function LogIn() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+            <Button type="submit" fullWidth variant="contained" color="secondary" sx={{ mt: 3, mb: 2 }}>
               Log In
             </Button>
-            <Grid container>
-            </Grid>
           </Box>
         </Box>
       </Container>
