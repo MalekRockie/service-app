@@ -25,6 +25,12 @@ public class OrdersController {
         return ordersService.getOrder(id);
     }
 
+    @GetMapping("/order/getOrdersForService/{id}")
+    public List<Orders> getOrderByService(@PathVariable String id)
+    {
+        return ordersService.getOrderByService(id);
+    }
+
     @PostMapping("order/RequestService")
     public ResponseEntity<?> requestService(@RequestBody Orders newOrder)
     {
@@ -32,4 +38,10 @@ public class OrdersController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PostMapping("order/OrderStatus")
+    public ResponseEntity<?> ChangeStatus(@PathVariable String id, @PathVariable String status)
+    {
+        ordersService.ChangeStatus(id, status);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }

@@ -21,4 +21,8 @@ public class ServiceProviderService {
     public void SignUp(ServiceProvider newUser) {
         serviceProviderRepository.SignUp(newUser);
     }
+
+    public ServiceProvider getByUsername(String username) {
+        return serviceProviderRepository.getByUsername(username);
+    }
 }

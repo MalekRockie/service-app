@@ -39,7 +39,7 @@ export default function ServiceProviderLogIn() {
         },
       });
       console.log('Login successful', response.data);
-      navigate('/ServiceBrowser');
+      navigate('/Orders');
     } catch (error) {
       console.error('Login failed', error.response ? error.response.data : error.message);
     }

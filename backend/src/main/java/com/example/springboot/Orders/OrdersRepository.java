@@ -38,7 +38,10 @@ public class OrdersRepository {
                 newOrder.getStatus());
     }
 
-
+    public List<Orders> getOrderByService(String id) {
+        String sql = "SELECT * FROM public.\"Orders\" WHERE service_id = ?";
+        return jdbcTemplate.query(sql, new Object[]{id}, mapOrdersWithDB());
+    }
 
 
     private RowMapper<Orders> mapOrdersWithDB() {

@@ -20,4 +20,8 @@ public class OrdersService {
     public void requestService(Orders newOrder) {
         ordersRepository.requestService(newOrder);
     }
+
+    public List<Orders> getOrderByService(String id) {
+        return ordersRepository.getOrderByService(id);
+    }
 }
