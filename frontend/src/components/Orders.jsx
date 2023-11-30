@@ -1,60 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { List, ListItem, ListItemText, Divider, Typography, Container, Box, Paper } from '@mui/material';
+import { List, ListItem, ListItemText, Divider, Typography, Container, Paper, Button, ButtonGroup } from '@mui/material';
 
 export default function ServiceProviderOrders() {
   const [orders, setOrders] = useState([]);
-  const [serviceProvider, setServiceProvider] = useState(null);
+  const [serviceProviderId, setServiceProviderId] = useState(null);
+  const [serviceProviderName, setServiceProviderName] = useState(null);
 
   useEffect(() => {
     const fetchServiceProvider = async () => {
       try {
         const spResponse = await axios.get('http://localhost:8080/currentSP', { withCredentials: true });
-        setServiceProvider(spResponse.data);
-        console.log("Fetched Service Provider:", spResponse.data);  // Logging the service provider
-        fetchService(spResponse.data.serviceProviderId);
+        setServiceProviderId(spResponse.data.serviceProviderId);
+        setServiceProviderName(spResponse.data.username);
+        fetchOrdersForServiceProvider(spResponse.data.serviceProviderId);
       } catch (error) {
         console.error("Error fetching service provider:", error);
-      }
-    };
-
-    const fetchService = async (serviceProviderId) => {
-      try {
-        const serviceResponse = await axios.get(`http://localhost:8080/Service/getServiceByProvider/${serviceProviderId}`);
-        console.log("Fetched Service:", serviceResponse.data);
-        fetchOrders(serviceResponse.data.service_id);
-      } catch (error) {
-        console.error("Error fetching service:", error);
-      }
-    };
-
-    const fetchOrders = async (serviceId) => {
-      try {
-        const ordersResponse = await axios.get(`http://localhost:8080/order/getOrdersForService/${serviceId}`);
-        console.log("Fetched Orders:", ordersResponse.data);
-        const ordersData = ordersResponse.data;
-
-        const detailedOrders = await Promise.all(ordersData.map(async (order) => {
-          const userServiceResponse = await axios.get(`http://localhost:8080/getUser/${order.user_id}`);
-          return {
-            ...order,
-            userName: `${userServiceResponse.data.first_name} ${userServiceResponse.data.last_name}`
-          };
-        }));
-
-        setOrders(detailedOrders);
-      } catch (error) {
-        console.error("Error fetching orders:", error);
       }
     };
 
     fetchServiceProvider();
   }, []);
 
+  const fetchOrdersForServiceProvider = async (spId) => {
+    if (!spId) return;
+    try {
+      const serviceResponse = await axios.get(`http://localhost:8080/Service/getServiceByProvider/${spId}`);
+      const ordersResponse = await axios.get(`http://localhost:8080/order/getOrdersForService/${serviceResponse.data.service_id}`);
+      const ordersData = ordersResponse.data;
+
+      const detailedOrders = await Promise.all(ordersData.map(async (order) => {
+        const userServiceResponse = await axios.get(`http://localhost:8080/getUser/${order.user_id}`);
+        return {
+          ...order,
+          userName: `${userServiceResponse.data.first_name} ${userServiceResponse.data.last_name}`
+        };
+      }));
+
+      setOrders(detailedOrders);
+    } catch (error) {
+      console.error("Error fetching orders for service provider:", error);
+    }
+  };
+
+  const handleStatusChange = async (orderId, newStatus) => {
+    try {
+      await axios.post(`http://localhost:8080/order/OrderStatus`, null, {
+        params: { id: orderId, status: newStatus },
+        withCredentials: true
+      });
+      fetchOrdersForServiceProvider(serviceProviderId);
+    } catch (error) {
+      console.error(`Error updating status for order ${orderId}:`, error);
+    }
+  };
+
   return (
     <Container maxWidth="sm">
       <Typography variant="h4" sx={{ my: 4 }}>
-        {serviceProvider ? `${serviceProvider.username}'s Orders` : 'Service Provider Orders'}
+        {serviceProviderId ? `Orders for ${serviceProviderName}` : 'Service Provider Orders'}
       </Typography>
       <List>
         {orders.map((order, index) => (
@@ -75,6 +79,11 @@ export default function ServiceProviderOrders() {
                     </>
                   }
                 />
+                <ButtonGroup variant="text" aria-label="text button group" sx={{ mt: 2 }}>
+                  <Button onClick={() => handleStatusChange(order.order_id, 'Accepted')}>Accept</Button>
+                  <Button onClick={() => handleStatusChange(order.order_id, 'Rejected')}>Reject</Button>
+                  <Button onClick={() => handleStatusChange(order.order_id, 'Completed')}>Complete</Button>
+                </ButtonGroup>
               </ListItem>
             </Paper>
             {index < orders.length - 1 && <Divider variant="inset" />}

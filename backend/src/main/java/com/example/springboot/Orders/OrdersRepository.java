@@ -42,7 +42,10 @@ public class OrdersRepository {
         String sql = "SELECT * FROM public.\"Orders\" WHERE service_id = ?";
         return jdbcTemplate.query(sql, new Object[]{id}, mapOrdersWithDB());
     }
-
+    public void changeStatus(String orderId, String status) {
+        String sql = "UPDATE public.\"Orders\" SET status = ? WHERE order_id = ?";
+        jdbcTemplate.update(sql, status, orderId);
+    }
 
     private RowMapper<Orders> mapOrdersWithDB() {
         return (resultSet, i) -> {

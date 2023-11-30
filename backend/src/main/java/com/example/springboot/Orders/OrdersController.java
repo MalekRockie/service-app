@@ -39,9 +39,8 @@ public class OrdersController {
     }
 
     @PostMapping("order/OrderStatus")
-    public ResponseEntity<?> ChangeStatus(@PathVariable String id, @PathVariable String status)
-    {
+    public ResponseEntity<?> ChangeStatus(@RequestParam String id, @RequestParam String status) {
         ordersService.ChangeStatus(id, status);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

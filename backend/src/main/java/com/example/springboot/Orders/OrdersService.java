@@ -24,4 +24,8 @@ public class OrdersService {
     public List<Orders> getOrderByService(String id) {
         return ordersRepository.getOrderByService(id);
     }
+
+    public void ChangeStatus(String id, String status) {
+        ordersRepository.changeStatus(id, status);
+    }
 }
