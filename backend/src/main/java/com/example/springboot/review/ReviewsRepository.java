@@ -46,14 +46,10 @@ public class ReviewsRepository {
 
         return result;
     }
-
-
     public List<Reviews> getAllReviews(String service_provider_id) {
         String sql = "SELECT * FROM public.\"reviews\" WHERE service_provider_id = ?";
         return jdbcTemplate.query(sql, new Object[]{service_provider_id}, mapReviewsWithDB());
     }
-
-
     public void createReview(Reviews newReview) {
         String sql = "INSERT INTO public.\"reviews\" (review_id, stars, Description, User_id, service_provider_id) VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql,
